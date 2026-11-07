@@ -1,8 +1,7 @@
 """
-Advance Quiz Bot — Open Source Project
-This project was originally developed by Gagan (github.com/devgaganin).
-Reference: https://t.me/advance_quiz_bot
-The codebase has been reviewed and verified with the assistance of Claude AI.
+RANKERS OF SSC CGL — Advance Quiz Bot
+Customized & Optimized for Best Quiz Experience.
+Telegram Channel: https://t.me/Quizess01
 """
 
 from __future__ import annotations
@@ -281,6 +280,212 @@ def render_markdown_to_html(text: str) -> str:
                 html_lines.append("<ol>")
                 in_list, list_type = True, "ol"
             html_lines.append(f"<li>{content}</li>")
+            i += 1
+            continue
+
+        if not line.strip():
+            _flush_paragraph()
+            _flush_blockquote()
+            _flush_list()
+            i += 1
+            continue
+
+        if not in_paragraph:
+            in_paragraph = True
+            paragraph_lines = []
+        paragraph_lines.append(_process_inline_markdown(line))
+        i += 1
+
+    _flush_paragraph()
+    _flush_blockquote()
+    _flush_list()
+
+    if in_table and table_rows:
+        html_lines.append('<table class="md-table">')
+        html_lines.append("<thead><tr>")
+        for cell in table_rows[0]:
+            html_lines.append(f"<th>{cell}</th>")
+        html_lines.append("</tr></thead>")
+        table_rows = table_rows[1:]
+        if table_rows:
+            html_lines.append("<tbody>")
+            for row in table_rows:
+                html_lines.append("<tr>")
+                for cell in row:
+                    html_lines.append(f"<td>{cell}</td>")
+                html_lines.append("</tr>")
+            html_lines.append("</tbody>")
+        html_lines.append("</table>")
+
+    result = "\n".join(html_lines)
+    for placeholder, code_block in code_blocks.items():
+        if placeholder in result:
+            code_content = code_block[3:-3].strip()
+            lines_split = code_content.split("\n")
+            lang = ""
+            if lines_split and lines_split[0].strip() and not lines_split[0].strip().startswith("```"):
+                lang = lines_split[0].strip()
+                code_content = "\n".join(lines_split[1:])
+            lang_class = f' class="language-{_escape_html(lang)}"' if lang else ""
+            result = result.replace(placeholder, f"<pre><code{lang_class}>{_escape_html(code_content)}</code></pre>")
+    return result
+
+
+def _build_section_map(sections: Optional[list[dict]]) -> dict[int, str]:
+    section_map: dict[int, str] = {}
+    if not sections:
+        return section_map
+    for sec in sections:
+        sec_name = sec.get("name", "")
+        q_indices = sec.get("question_indices", [])
+        if not q_indices and "start" in sec and "end" in sec:
+            q_indices = list(range(sec["start"], sec["end"] + 1))
+        for qi in q_indices:
+            section_map[int(qi)] = sec_name
+    return section_map
+
+
+def _build_leaderboard_rows(leaderboard: list[dict], style: PdfStyle) -> str:
+    rows_html = ""
+    for rank, u in enumerate(leaderboard, 1):
+        attempted = u["correct"] + u["wrong"]
+        acc = (u["correct"] / attempted * 100) if attempted else 0
+        minutes, seconds = divmod(u["total_time"], 60)
+        medal = {1: "\U0001F947", 2: "\U0001F948", 3: "\U0001F949"}.get(rank, f"{rank}.")
+        row_class = "even-row" if rank % 2 == 0 else "odd-row"
+        if style == "modern":
+            score_color = "#10B981" if u["score"] >= 0 else "#EF4444"
+            rows_html += (
+                f'<tr class="{row_class}">'
+                f'<td class="rank-col">{medal}</td>'
+                f'<td class="name-col">{_escape_html(str(u["name"])[:35])}</td>'
+                f'<td><span class="badge-correct">{u["correct"]}</span></td>'
+                f'<td><span class="badge-wrong">{u["wrong"]}</span></td>'
+                f'<td class="score-col" style="color:{score_color}; font-weight:700; font-size:11pt;">{u["score"]:.1f}</td>'
+                f'<td><span class="badge-acc">{acc:.0f}%</span></td>'
+                f"<td>{int(minutes)}m {int(seconds)}s</td></tr>"
+            )
+        else:
+            score_color = "#16a34a" if u["score"] >= 0 else "#dc2626"
+            rows_html += (
+                f'<tr class="{row_class}">'
+                f'<td class="rank-col">{medal}</td>'
+                f'<td class="name-col">{_escape_html(str(u["name"])[:35])}</td>'
+                f'<td>{u["correct"]}</td><td>{u["wrong"]}</td>'
+                f'<td class="score-col" style="color:{score_color}; font-weight:bold;">{u["score"]:.1f}</td>'
+                f"<td>{acc:.0f}%</td><td>{int(minutes)}m {int(seconds)}s</td></tr>"
+            )
+    return rows_html
+
+
+def _build_questions_html(
+    questions: list[dict], session_polls: dict, sections: Optional[list[dict]],
+    shuffle_options: bool, style: PdfStyle,
+) -> str:
+    import random
+
+    section_map = _build_section_map(sections)
+    questions_html = ""
+    polls_list = sorted(session_polls.items(), key=lambda x: x[1].get("question_index", 0))
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    last_section = None
+
+    for i, (_poll_id, pdata) in enumerate(polls_list):
+        q_idx = pdata.get("question_index", i)
+        if q_idx < 0 or q_idx >= len(questions):
+            continue
+        q = questions[q_idx]
+
+        sec_name = section_map.get(q_idx, "")
+        if sec_name and sec_name != last_section:
+            last_section = sec_name
+            if style == "modern":
+                color = _SECTION_COLORS[len(section_map) % len(_SECTION_COLORS)]
+                questions_html += (
+                    f'</div><div class="section-banner" '
+                    f'style="background: linear-gradient(135deg, {color}, {color}dd);">'
+                    f"\U0001F4C2 {_escape_html(sec_name)}</div><div class=\"questions-container\">"
+                )
+            else:
+                safe_sec = sec_name.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                questions_html += (
+                    f'</div><div class="section-banner">\U0001F4C2 {safe_sec}</div>'
+                    f'<div class="questions-container">'
+                )
+
+        orig_options = list(q.get("options", []))
+        orig_correct_id = q.get("correct_option_id", 0)
+        orig_correct_ids = orig_correct_id if isinstance(orig_correct_id, list) else [orig_correct_id]
+        try:
+            orig_correct_ids = [int(c) for c in orig_correct_ids]
+        except Exception:
+            orig_correct_ids = [0]
+
+        if shuffle_options:
+            idx_list = list(range(len(orig_options)))
+            random.shuffle(idx_list)
+            shuffled_options = [orig_options[k] for k in idx_list]
+            old_to_new = {old: new for new, old in enumerate(idx_list)}
+            correct_ids_final = [old_to_new[c] for c in orig_correct_ids if c in old_to_new]
+        else:
+            shuffled_options = orig_options
+            correct_ids_final = orig_correct_ids
+
+        opts_html = ""
+        for j, opt in enumerate(shuffled_options):
+            is_correct = j in correct_ids_final
+            cls = "opt-correct" if is_correct else "opt-normal"
+            opts_html += f'<div class="{cls}"><span class="opt-letter">{letters[j]})</span> {_safe_html(str(opt))}</div>'
+
+        expl_raw = q.get("explanation", "")
+        expl_html = (
+            f'<div class="explanation-box"><strong>\U0001F4A1 Explanation:</strong> {_safe_html(str(expl_raw))}</div>'
+            if expl_raw else ""
+        )
+        reply_raw = q.get("reply_text", "")
+        reply_html = (
+            f'<div class="reference-box"><strong>\U0001F4DD Reference:</strong> {_safe_html(str(reply_raw))}</div>'
+            if reply_raw else ""
+        )
+        safe_q = _safe_html(str(q.get("question", "")))
+
+        questions_html += (
+            f'<div class="question-card"><div class="q-header">'
+            f'<span class="q-badge">Q{i + 1}</span><span class="q-text">{safe_q}</span></div>'
+            f'<div class="options-container">{opts_html}</div>{reply_html}{expl_html}</div>'
+        )
+
+    return questions_html
+
+
+_CLASSIC_CSS = """
+@page { size: A4; margin: 1.5cm 1.5cm 2cm 1.5cm;
+  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #64748b; }
+  @top-right { content: "RANKERS OF SSC CGL"; font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #1a237e; font-weight: bold; } }
+body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #1e293b; line-height: 1.6; font-size: 10.5pt; background-color: #ffffff; }
+
+/* Header & Title Customization */
+.report-header { text-align: center; border-bottom: 3px solid #4a148c; padding-bottom: 15px; margin-bottom: 20px; background-color: #f8f9fa; border-radius: 8px; padding-top: 15px; }
+.report-title { font-family: 'Merriweather', serif; font-size: 22pt; color: #1a237e; margin: 0 0 5px 0; font-weight: 900; text-transform: uppercase; }
+.report-meta { font-size: 10pt; color: #4a148c; margin-top: 5px; font-weight: bold; }
+
+/* Section and Leaderboard */
+.section-title { background-color: #1a237e; color: #ffeb3b; padding: 8px 12px; font-weight: bold; font-size: 12pt; margin-top: 20px; margin-bottom: 12px; border-radius: 4px; text-transform: uppercase; border-left: 5px solid #4a148c; }
+table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 9.5pt; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+table.leaderboard th { background-color: #1a237e; color: #ffeb3b; padding: 8px; text-align: center; font-weight: 700; border: 1px solid #4a148c; }
+table.leaderboard td { padding: 8px; text-align: center; border-bottom: 1px solid #4a148c; }
+.even-row { background-color: #fdfdfd; } .odd-row { background-color: #f4f2f7; }
+
+/* Question Cards Customization (Purple Borders & Navy Blue accents) */
+.questions-container { column-count: 2; column-gap: 20px; column-rule: 2px dashed #4a148c; }
+.question-card { border: 2px solid #4a148c; border-left: 5px solid #1a237e; border-radius: 6px; padding: 12px; margin-bottom: 15px; page-break-inside: avoid; break-inside: avoid; background-color: #ffffff; box-shadow: 2px 2px 8px rgba(0,0,0,0.04); }
+.q-header { display: flex; align-items: baseline; margin-bottom: 8px; }
+.q-badge { background-color: #1a237e; color: #ffeb3b; font-weight: bold; padding: 2px 8px; border-radius: 4px; font-size: 9pt; margin-right: 8px; min-width: 30px; text-align: center; flex-shrink: 0; }
+.q-text { font-weight: 700; color: #1a237e; font-size: 10pt; line-height: 1.5; }
+
+/* Options & Explanation (Yellow Highlight for correct answer) */
+.options-container { margin-left: 4px; margin-top: 5px; }
+.opt-normal { color: #333333; margin-bolines.append(f"<li>{content}</li>")
             i += 1
             continue
 
