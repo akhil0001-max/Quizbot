@@ -1,8 +1,6 @@
 """
 Advance Quiz Bot — Open Source Project
-This project was originally developed by Gagan (github.com/devgaganin).
-Reference: https://t.me/advance_quiz_bot
-The codebase has been reviewed and verified with the assistance of Claude AI.
+Customized for Akhil Quiz & Runner Bot.
 """
 
 from __future__ import annotations
@@ -461,66 +459,66 @@ def _build_questions_html(
 
 _CLASSIC_CSS = """
 @page { size: A4; margin: 1.5cm 1.5cm 2cm 1.5cm;
-  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #64748b; }
-  @top-right { content: "{title_short}"; font-family: 'Noto Sans', sans-serif; font-size: 8pt; color: #94a3b8; font-style: italic; } }
-body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #1e293b; line-height: 1.5; font-size: 10pt; background-color: #fff; }
-.report-header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 15px; margin-bottom: 20px; }
-.report-title { font-family: 'Merriweather', serif; font-size: 20pt; color: #1e3a8a; margin: 0 0 5px 0; }
-.report-meta { font-size: 9pt; color: #64748b; margin-top: 5px; }
+  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #9ca3af; }
+  @top-right { content: "{title_short}"; font-family: 'Noto Sans', sans-serif; font-size: 8pt; color: #9ca3af; font-style: italic; } }
+body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #f3f4f6; line-height: 1.5; font-size: 10pt; background-color: #111827; }
+.report-header { text-align: center; border-bottom: 2px solid #374151; padding-bottom: 15px; margin-bottom: 20px; }
+.report-title { font-family: 'Merriweather', serif; font-size: 20pt; color: #f9fafb; margin: 0 0 5px 0; }
+.report-meta { font-size: 9pt; color: #9ca3af; margin-top: 5px; }
 .report-meta span { margin: 0 8px; }
-.section-title { background-color: #1e3a8a; color: white; padding: 6px 10px; font-weight: bold; font-size: 11pt; margin-top: 20px; margin-bottom: 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; page-break-after: avoid; }
-table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 8.5pt; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-table.leaderboard th { background-color: #2563eb; color: white; padding: 6px; text-align: center; font-weight: 600; }
-table.leaderboard td { padding: 6px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+.section-title { background-color: #1f2937; color: #f9fafb; padding: 6px 10px; font-weight: bold; font-size: 11pt; margin-top: 20px; margin-bottom: 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; page-break-after: avoid; }
+table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 8.5pt; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+table.leaderboard th { background-color: #374151; color: #f9fafb; padding: 6px; text-align: center; font-weight: 600; }
+table.leaderboard td { padding: 6px; text-align: center; border-bottom: 1px solid #4b5563; }
 .rank-col { width: 35px; font-weight: bold; }
 .name-col { text-align: left !important; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.even-row { background-color: #f8fafc; } .odd-row { background-color: #ffffff; }
-.questions-container { column-count: 2; column-gap: 20px; column-rule: 1px solid #e2e8f0; }
-.question-card { border: 1px solid #cbd5e1; border-left: 3px solid #1e3a8a; border-radius: 4px; padding: 8px; margin-bottom: 12px; page-break-inside: avoid; break-inside: avoid; background-color: #fff; }
+.even-row { background-color: #1f2937; } .odd-row { background-color: #111827; }
+.questions-container { column-count: 2; column-gap: 20px; column-rule: 1px solid #4b5563; }
+.question-card { border: 1px solid #374151; border-left: 3px solid #6b7280; border-radius: 4px; padding: 8px; margin-bottom: 12px; page-break-inside: avoid; break-inside: avoid; background-color: #1f2937; }
 .q-header { display: flex; align-items: baseline; margin-bottom: 6px; }
-.q-badge { background-color: #1e3a8a; color: white; font-weight: bold; padding: 1px 6px; border-radius: 3px; font-size: 8pt; margin-right: 8px; min-width: 25px; text-align: center; flex-shrink: 0; }
-.q-text { font-weight: 600; color: #1e293b; font-size: 9.5pt; line-height: 1.4; }
+.q-badge { background-color: #4b5563; color: #f9fafb; font-weight: bold; padding: 1px 6px; border-radius: 3px; font-size: 8pt; margin-right: 8px; min-width: 25px; text-align: center; flex-shrink: 0; }
+.q-text { font-weight: 600; color: #f3f4f6; font-size: 9.5pt; line-height: 1.4; }
 .options-container { margin-left: 2px; }
-.opt-normal { color: #475569; margin-bottom: 2px; padding: 1px 0; font-size: 9pt; }
-.opt-correct { color: #16a34a; font-weight: 600; margin-bottom: 2px; padding: 1px 4px; background-color: #f0fdf4; border-radius: 3px; font-size: 9pt; }
-.opt-letter { font-weight: bold; margin-right: 4px; color: #64748b; }
-.explanation-box { margin-top: 6px; padding: 5px; background-color: #fef9c3; border-left: 2px solid #d97706; font-size: 8pt; color: #78350f; border-radius: 0 3px 3px 0; line-height: 1.3; }
+.opt-normal { color: #d1d5db; margin-bottom: 2px; padding: 1px 0; font-size: 9pt; }
+.opt-correct { color: #10b981; font-weight: 600; margin-bottom: 2px; padding: 1px 4px; background-color: rgba(16, 185, 129, 0.1); border-radius: 3px; font-size: 9pt; }
+.opt-letter { font-weight: bold; margin-right: 4px; color: #9ca3af; }
+.explanation-box { margin-top: 6px; padding: 5px; background-color: rgba(245, 158, 11, 0.1); border-left: 2px solid #f59e0b; font-size: 8pt; color: #fcd34d; border-radius: 0 3px 3px 0; line-height: 1.3; }
 math { font-size: 9.5pt; } math[display="block"] { display: block; margin: 6px auto; text-align: center; }
-.reference-box { margin-top: 6px; padding: 5px; background-color: #eff6ff; border-left: 2px solid #2563eb; font-size: 8pt; color: #1e3a8a; border-radius: 0 3px 3px 0; line-height: 1.3; }
-.footer-info { text-align: center; font-size: 7pt; color: #94a3b8; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 8px; }
-.section-banner { column-span: all; background: linear-gradient(90deg, #1e3a8a, #2563eb); color: white; padding: 7px 12px; font-weight: bold; font-size: 10.5pt; margin: 16px 0 10px 0; border-radius: 5px; letter-spacing: 0.5px; page-break-after: avoid; }
+.reference-box { margin-top: 6px; padding: 5px; background-color: rgba(59, 130, 246, 0.1); border-left: 2px solid #3b82f6; font-size: 8pt; color: #93c5fd; border-radius: 0 3px 3px 0; line-height: 1.3; }
+.footer-info { text-align: center; font-size: 7pt; color: #6b7280; margin-top: 20px; border-top: 1px solid #4b5563; padding-top: 8px; }
+.section-banner { column-span: all; background: linear-gradient(90deg, #374151, #4b5563); color: #f9fafb; padding: 7px 12px; font-weight: bold; font-size: 10.5pt; margin: 16px 0 10px 0; border-radius: 5px; letter-spacing: 0.5px; page-break-after: avoid; }
 """
 
 _MODERN_CSS = """
 @page { size: A4; margin: 1.5cm 1.5cm 2cm 1.5cm;
-  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #64748b; } }
-body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #1e293b; line-height: 1.6; font-size: 10pt; background-color: #fff; }
-.report-header { text-align: center; padding: 20px; margin-bottom: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; color: white; }
-.report-title { font-family: 'Merriweather', serif; font-size: 22pt; margin: 0 0 8px 0; }
-.report-meta { font-size: 9.5pt; opacity: 0.9; }
+  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #9ca3af; } }
+body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #f3f4f6; line-height: 1.6; font-size: 10pt; background-color: #111827; }
+.report-header { text-align: center; padding: 20px; margin-bottom: 20px; background: linear-gradient(135deg, #1f2937, #374151); border-radius: 10px; color: #f9fafb; }
+.report-title { font-family: 'Merriweather', serif; font-size: 22pt; margin: 0 0 8px 0; color: #f9fafb; }
+.report-meta { font-size: 9.5pt; opacity: 0.9; color: #d1d5db; }
 .report-meta span { margin: 0 8px; }
-.section-title { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 12px; font-weight: bold; font-size: 12pt; margin-top: 22px; margin-bottom: 12px; border-radius: 6px; page-break-after: avoid; }
-table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 8.5pt; }
-table.leaderboard th { background: #667eea; color: white; padding: 7px; text-align: center; font-weight: 600; }
-table.leaderboard td { padding: 7px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+.section-title { background: linear-gradient(135deg, #1f2937, #374151); color: #f9fafb; padding: 8px 12px; font-weight: bold; font-size: 12pt; margin-top: 22px; margin-bottom: 12px; border-radius: 6px; page-break-after: avoid; }
+table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 8.5pt; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+table.leaderboard th { background: #374151; color: #f9fafb; padding: 7px; text-align: center; font-weight: 600; border-bottom: 2px solid #4b5563; }
+table.leaderboard td { padding: 7px; text-align: center; border-bottom: 1px solid #4b5563; }
 .rank-col { width: 35px; font-weight: bold; }
 .name-col { text-align: left !important; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.even-row { background-color: #f5f3ff; } .odd-row { background-color: #ffffff; }
-.badge-correct { color: #10B981; font-weight: 700; } .badge-wrong { color: #EF4444; font-weight: 700; } .badge-acc { color: #667eea; font-weight: 700; }
-.questions-container { column-count: 2; column-gap: 22px; column-rule: 1px solid #e9d5ff; }
-.question-card { border: 1px solid #ddd6fe; border-left: 4px solid #764ba2; border-radius: 6px; padding: 9px; margin-bottom: 14px; page-break-inside: avoid; break-inside: avoid; background: #fdfcff; }
+.even-row { background-color: #1f2937; } .odd-row { background-color: #111827; }
+.badge-correct { color: #34d399; font-weight: 700; } .badge-wrong { color: #f87171; font-weight: 700; } .badge-acc { color: #818cf8; font-weight: 700; }
+.questions-container { column-count: 2; column-gap: 22px; column-rule: 1px solid #4b5563; }
+.question-card { border: 1px solid #374151; border-left: 4px solid #6b7280; border-radius: 6px; padding: 9px; margin-bottom: 14px; page-break-inside: avoid; break-inside: avoid; background: #1f2937; }
 .q-header { display: flex; align-items: baseline; margin-bottom: 7px; }
-.q-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: bold; padding: 2px 7px; border-radius: 4px; font-size: 8pt; margin-right: 8px; min-width: 25px; text-align: center; flex-shrink: 0; }
-.q-text { font-weight: 700; color: #1e1b3a; font-size: 9.5pt; line-height: 1.45; }
+.q-badge { background: linear-gradient(135deg, #374151, #4b5563); color: #f9fafb; font-weight: bold; padding: 2px 7px; border-radius: 4px; font-size: 8pt; margin-right: 8px; min-width: 25px; text-align: center; flex-shrink: 0; }
+.q-text { font-weight: 700; color: #f9fafb; font-size: 9.5pt; line-height: 1.45; }
 .options-container { margin-left: 2px; }
-.opt-normal { color: #475569; margin-bottom: 3px; padding: 1px 0; font-size: 9pt; }
-.opt-correct { color: #10B981; font-weight: 700; margin-bottom: 3px; padding: 2px 5px; background: #ecfdf5; border-radius: 4px; font-size: 9pt; }
-.opt-letter { font-weight: bold; margin-right: 4px; color: #764ba2; }
-.explanation-box { margin-top: 7px; padding: 6px; background: #fef3c7; border-left: 3px solid #d97706; font-size: 8pt; color: #78350f; border-radius: 0 4px 4px 0; line-height: 1.35; }
+.opt-normal { color: #d1d5db; margin-bottom: 3px; padding: 1px 0; font-size: 9pt; }
+.opt-correct { color: #34d399; font-weight: 700; margin-bottom: 3px; padding: 2px 5px; background: rgba(16, 185, 129, 0.1); border-radius: 4px; font-size: 9pt; }
+.opt-letter { font-weight: bold; margin-right: 4px; color: #9ca3af; }
+.explanation-box { margin-top: 7px; padding: 6px; background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; font-size: 8pt; color: #fcd34d; border-radius: 0 4px 4px 0; line-height: 1.35; }
 math { font-size: 9.5pt; } math[display="block"] { display: block; margin: 6px auto; text-align: center; }
-.reference-box { margin-top: 7px; padding: 6px; background: #ede9fe; border-left: 3px solid #764ba2; font-size: 8pt; color: #4c1d95; border-radius: 0 4px 4px 0; line-height: 1.35; }
-.footer-info { text-align: center; font-size: 7pt; color: #94a3b8; margin-top: 22px; border-top: 1px solid #e9d5ff; padding-top: 8px; }
-.section-banner { column-span: all; color: white; padding: 8px 14px; font-weight: bold; font-size: 10.5pt; margin: 18px 0 10px 0; border-radius: 6px; letter-spacing: 0.5px; page-break-after: avoid; }
+.reference-box { margin-top: 7px; padding: 6px; background: rgba(139, 92, 246, 0.1); border-left: 3px solid #8b5cf6; font-size: 8pt; color: #c4b5fd; border-radius: 0 4px 4px 0; line-height: 1.35; }
+.footer-info { text-align: center; font-size: 7pt; color: #6b7280; margin-top: 22px; border-top: 1px solid #4b5563; padding-top: 8px; }
+.section-banner { column-span: all; color: #f9fafb; padding: 8px 14px; font-weight: bold; font-size: 10.5pt; margin: 18px 0 10px 0; border-radius: 6px; letter-spacing: 0.5px; page-break-after: avoid; }
 """
 
 
@@ -571,7 +569,7 @@ def render_quiz_pdf(
     )
 
     section_banner_bg = (
-        "linear-gradient(135deg, #667eea, #764ba2)" if style == "modern" else "linear-gradient(90deg, #1e3a8a, #2563eb)"
+        "linear-gradient(135deg, #1f2937, #374151)" if style == "modern" else "linear-gradient(90deg, #374151, #4b5563)"
     )
     css = css.replace(".section-banner { column-span: all;", f".section-banner {{ column-span: all; background: {section_banner_bg};")
 
