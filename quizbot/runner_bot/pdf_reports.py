@@ -482,4 +482,135 @@ table.leaderboard td { padding: 6px; text-align: center; border-bottom: 1px soli
 .q-text { font-weight: 600; color: #1e293b; font-size: 9.5pt; line-height: 1.4; }
 .options-container { margin-left: 2px; }
 .opt-normal { color: #475569; margin-bottom: 2px; padding: 1px 0; font-size: 9pt; }
-.opt-correct { color: #16a34a; font-weight: 600; margin-bottom: 2px; paddi
+.opt-correct { color: #16a34a; font-weight: 600; margin-bottom: 2px; padding: 1px 4px; background-color: #f0fdf4; border-radius: 3px; font-size: 9pt; }
+.opt-letter { font-weight: bold; margin-right: 4px; color: #64748b; }
+.explanation-box { margin-top: 6px; padding: 5px; background-color: #fef9c3; border-left: 2px solid #d97706; font-size: 8pt; color: #78350f; border-radius: 0 3px 3px 0; line-height: 1.3; }
+math { font-size: 9.5pt; } math[display="block"] { display: block; margin: 6px auto; text-align: center; }
+.reference-box { margin-top: 6px; padding: 5px; background-color: #eff6ff; border-left: 2px solid #2563eb; font-size: 8pt; color: #1e3a8a; border-radius: 0 3px 3px 0; line-height: 1.3; }
+.footer-info { text-align: center; font-size: 7pt; color: #94a3b8; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+.section-banner { column-span: all; background: linear-gradient(90deg, #1e3a8a, #2563eb); color: white; padding: 7px 12px; font-weight: bold; font-size: 10.5pt; margin: 16px 0 10px 0; border-radius: 5px; letter-spacing: 0.5px; page-break-after: avoid; }
+"""
+
+_MODERN_CSS = """
+@page { size: A4; margin: 1.5cm 1.5cm 2cm 1.5cm;
+  @bottom-center { content: "Page " counter(page); font-family: 'Noto Sans', sans-serif; font-size: 9pt; color: #64748b; } }
+body { font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif; color: #1e293b; line-height: 1.6; font-size: 10pt; background-color: #fff; }
+.report-header { text-align: center; padding: 20px; margin-bottom: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; color: white; }
+.report-title { font-family: 'Merriweather', serif; font-size: 22pt; margin: 0 0 8px 0; }
+.report-meta { font-size: 9.5pt; opacity: 0.9; }
+.report-meta span { margin: 0 8px; }
+.section-title { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 12px; font-weight: bold; font-size: 12pt; margin-top: 22px; margin-bottom: 12px; border-radius: 6px; page-break-after: avoid; }
+table.leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 8.5pt; }
+table.leaderboard th { background: #667eea; color: white; padding: 7px; text-align: center; font-weight: 600; }
+table.leaderboard td { padding: 7px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+.rank-col { width: 35px; font-weight: bold; }
+.name-col { text-align: left !important; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.even-row { background-color: #f5f3ff; } .odd-row { background-color: #ffffff; }
+.badge-correct { color: #10B981; font-weight: 700; } .badge-wrong { color: #EF4444; font-weight: 700; } .badge-acc { color: #667eea; font-weight: 700; }
+.questions-container { column-count: 2; column-gap: 22px; column-rule: 1px solid #e9d5ff; }
+.question-card { border: 1px solid #ddd6fe; border-left: 4px solid #764ba2; border-radius: 6px; padding: 9px; margin-bottom: 14px; page-break-inside: avoid; break-inside: avoid; background: #fdfcff; }
+.q-header { display: flex; align-items: baseline; margin-bottom: 7px; }
+.q-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: bold; padding: 2px 7px; border-radius: 4px; font-size: 8pt; margin-right: 8px; min-width: 25px; text-align: center; flex-shrink: 0; }
+.q-text { font-weight: 700; color: #1e1b3a; font-size: 9.5pt; line-height: 1.45; }
+.options-container { margin-left: 2px; }
+.opt-normal { color: #475569; margin-bottom: 3px; padding: 1px 0; font-size: 9pt; }
+.opt-correct { color: #10B981; font-weight: 700; margin-bottom: 3px; padding: 2px 5px; background: #ecfdf5; border-radius: 4px; font-size: 9pt; }
+.opt-letter { font-weight: bold; margin-right: 4px; color: #764ba2; }
+.explanation-box { margin-top: 7px; padding: 6px; background: #fef3c7; border-left: 3px solid #d97706; font-size: 8pt; color: #78350f; border-radius: 0 4px 4px 0; line-height: 1.35; }
+math { font-size: 9.5pt; } math[display="block"] { display: block; margin: 6px auto; text-align: center; }
+.reference-box { margin-top: 7px; padding: 6px; background: #ede9fe; border-left: 3px solid #764ba2; font-size: 8pt; color: #4c1d95; border-radius: 0 4px 4px 0; line-height: 1.35; }
+.footer-info { text-align: center; font-size: 7pt; color: #94a3b8; margin-top: 22px; border-top: 1px solid #e9d5ff; padding-top: 8px; }
+.section-banner { column-span: all; color: white; padding: 8px 14px; font-weight: bold; font-size: 10.5pt; margin: 18px 0 10px 0; border-radius: 6px; letter-spacing: 0.5px; page-break-after: avoid; }
+"""
+
+
+def render_quiz_pdf(
+    quiz_name: str,
+    chat_title: str,
+    questions: list[dict],
+    leaderboard: list[dict],
+    session_polls: dict,
+    neg: float,
+    correct_mark: float,
+    output_path: str,
+    sections: Optional[list[dict]] = None,
+    bg_image_b64: Optional[str] = None,
+    shuffle_options: bool = False,
+    style: PdfStyle = "classic",
+) -> bool:
+    """Render a professional quiz PDF report (questions, answers, and
+    leaderboard) via WeasyPrint. Synchronous -- callers MUST run this via
+    `loop.run_in_executor`. Returns True on success, False if WeasyPrint
+    isn't installed or rendering failed.
+    """
+    try:
+        from weasyprint import HTML
+    except ImportError:
+        logger.error("WeasyPrint not installed. Run: pip install weasyprint")
+        return False
+
+    now_str = datetime.now().strftime("%d %b %Y, %I:%M %p")
+
+    bg_css = ""
+    if bg_image_b64:
+        watermark_size = "300px" if style == "modern" else "240px"
+        opacity = "0.04" if style == "modern" else "0.05"
+        bg_css = f"""
+        .watermark-circle {{ position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: {watermark_size}; height: {watermark_size}; background-image: url('{bg_image_b64}');
+            background-repeat: no-repeat; background-position: center center; background-size: cover;
+            border-radius: 50%; opacity: {opacity}; z-index: 0; pointer-events: none; }}
+        body > *:not(.watermark-circle) {{ position: relative; z-index: 1; }}
+        """
+
+    lb_rows_html = _build_leaderboard_rows(leaderboard, style) if leaderboard else ""
+    questions_html = _build_questions_html(questions, session_polls, sections, shuffle_options, style)
+
+    css = (_MODERN_CSS if style == "modern" else _CLASSIC_CSS).replace(
+        "{title_short}", _escape_html(quiz_name[:30])
+    )
+
+    section_banner_bg = (
+        "linear-gradient(135deg, #667eea, #764ba2)" if style == "modern" else "linear-gradient(90deg, #1e3a8a, #2563eb)"
+    )
+    css = css.replace(".section-banner { column-span: all;", f".section-banner {{ column-span: all; background: {section_banner_bg};")
+
+    watermark_div = '<div class="watermark-circle"></div>' if bg_image_b64 else ""
+    leaderboard_title = '<div class="section-title">\U0001F3C6 Leaderboard</div>' if leaderboard else ""
+    leaderboard_table = (
+        f"""<table class="leaderboard"><thead><tr>
+            <th>Rank</th><th style="text-align:left">Participant</th><th>\u2705</th><th>\u274c</th>
+            <th>Score</th><th>Acc%</th><th>Time</th></tr></thead>
+            <tbody>{lb_rows_html}</tbody></table>"""
+        if leaderboard else ""
+    )
+    footer_label = "Modern Report Edition" if style == "modern" else "Pro++ Report Edition"
+
+    html_content = f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<style>{css}{bg_css}</style></head>
+<body>
+{watermark_div}
+<div class="report-header">
+  <h1 class="report-title">{_escape_html(quiz_name or "Quiz Report")}</h1>
+  <div class="report-meta">
+    <span>\U0001F4DA {_escape_html(chat_title)}</span> |
+    <span>\U0001F4C5 {now_str}</span> |
+    <span>\u2753 {len(questions)} Questions</span> |
+    <span>\u2705 +{correct_mark} / \u274c -{neg}</span>
+  </div>
+</div>
+{leaderboard_title}
+{leaderboard_table}
+<div class="section-title">\U0001F4CB Questions &amp; Answers</div>
+<div class="questions-container">{questions_html}</div>
+<div class="footer-info">Generated by Quiz Bot &bull; {footer_label}</div>
+</body></html>"""
+
+    try:
+        HTML(string=html_content, base_url=".").write_pdf(output_path)
+        return True
+    except Exception as e:
+        logger.error("WeasyPrint PDF generation failed: %s", e, exc_info=True)
+        return False
